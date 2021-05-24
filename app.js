@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors');
 const pool = require('./db');
 const algoliasearch = require('algoliasearch');
+const jwt = require('jsonwebtoken');
 
 // Algolia
 const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_ADMIN_API);
@@ -17,11 +18,27 @@ const Category = new category(pool, index);
 const { algoliaIndex } = require('./modules/algolia-index.js');
 const AlgoliaIndex = new algoliaIndex(pool, index, Recipe);
 
+// Utils
+const { verifyUser } = require('./utils/auth.js');
+const cookieParser = require('cookie-parser');
+
 const port = 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.json());
+app.use(cookieParser());
+
+app.post('/api/login', async (req, res) => {
+  const password = req.body.password;
+  if (password === process.env.API_PASSWORD) {
+    const accessToken = jwt.sign({ user: 'dan'}, process.env.ACCESS_TOKEN_SECRET);
+    res.json({ accessToken });
+  } else {
+    res.send(500, { error: 'Not authorised' });
+  }
+});
 
 app.get('/api/recipe/:id', async (req, res) => {
   try {
@@ -32,7 +49,7 @@ app.get('/api/recipe/:id', async (req, res) => {
   }
 });
 
-app.get('/api/recipe/delete/:id', async (req, res) => {
+app.get('/api/recipe/delete/:id', [ verifyUser ], async (req, res) => {
   try {
     const data = await Recipe.delete(req.params['id']);
     AlgoliaIndex.delete(req.params['id']);
@@ -52,7 +69,7 @@ app.get('/api/recipes', async (req, res) => {
   }
 });
 
-app.get('/api/sync', async (req, res) => {
+app.get('/api/sync', [ verifyUser ],  async (req, res) => {
   try {
     await AlgoliaIndex.syncAll();
     res.send('Done!');
@@ -62,7 +79,7 @@ app.get('/api/sync', async (req, res) => {
   }
 });
 
-app.post('/api/recipes/create', async (req, res) => {
+app.post('/api/recipes/create', [ verifyUser ], async (req, res) => {
   try {
     const newRecipeID = await Recipe.create(req.body);
     AlgoliaIndex.add(newRecipeID);
@@ -72,7 +89,7 @@ app.post('/api/recipes/create', async (req, res) => {
   }
 });
 
-app.post('/api/recipe/edit/:id', async (req, res) => {
+app.post('/api/recipe/edit/:id', [ verifyUser ], async (req, res) => {
   try {
     await Recipe.update(req.body);
     console.log(req.body)
@@ -99,7 +116,7 @@ app.get('/api/categories', async (req, res) => {
   }
 });
 
-app.post('/api/categories/create', async (req, res) => {
+app.post('/api/categories/create', [ verifyUser ], async (req, res) => {
   try {
     const data = await Category.create(req.body);
     res.sendStatus(200);
