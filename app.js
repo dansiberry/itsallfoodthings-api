@@ -1,3 +1,14 @@
+// const http = require("http");
+
+// http
+//   .createServer(function(request, response) {
+//     console.log("request received");
+//     response.end("omg hi!....", "utf-8");
+//   })
+//   .listen(3000);
+// console.log("server started");
+
+
 require('dotenv').config();
 const express = require('express');
 const app = express();
@@ -29,6 +40,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.json());
 app.use(cookieParser());
+
+app.get('/', async (req, res) => {
+  res.send('TEST...');
+});
 
 app.post('/api/login', async (req, res) => {
   const password = req.body.password;

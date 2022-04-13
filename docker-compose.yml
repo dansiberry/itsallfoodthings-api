@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  db:
+    image: postgres
+    restart: always
+    container_name: psql_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./../my_dbs_psql:/var/lib/postgresql/data/custom
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/custom/
+  web:
+    restart: always
+    build: .
+    volumes:
+      - .:/home/node/code
+    command: bash -c "yarn && nodemon app.js"
+    container_name: node_express
+    ports:
+      - "3000:3000"
+    links:
+      - db
+  
