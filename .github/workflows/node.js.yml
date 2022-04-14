@@ -22,4 +22,4 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
     - run: touch 'test.txt'
-    - run: echo $PWD > test.txt
+    - run: echo "$(whoami)" > test.txt
