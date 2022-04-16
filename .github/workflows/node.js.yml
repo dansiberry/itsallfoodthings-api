@@ -30,8 +30,5 @@ jobs:
     - run: cp /var/www/itsallfoodthings-api-old/.env /var/www/itsallfoodthings-api
     - run: rm -rf /var/www/itsallfoodthings-api-old
     - run: cd /var/www/itsallfoodthings-api
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-      with:
-        install-dependencies: false
+    - run: docker-compose config > /var/www/test.txt
     - run: docker-compose up -d
