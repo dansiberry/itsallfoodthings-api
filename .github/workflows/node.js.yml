@@ -23,7 +23,7 @@ jobs:
       uses: actions/setup-node@v3
     - run: docker stop itsallfoodthings_psql_db || true && docker rm itsallfoodthings_psql_db || true
     - run: docker stop itsallfoodthings_node_express || true && docker rm itsallfoodthings_node_express || true
-    - run: mv /var/www/itsallfoodthings-api /var/www/itsallfoodthings-api/old
+    - run: mv /var/www/itsallfoodthings-api /var/www/itsallfoodthings-api-old
     - run: mkdir /var/www/itsallfoodthings-api
     - run: cp -r /var/www/actions-runner/_work/itsallfoodthings-api/itsallfoodthings-api/. itsallfoodthings-api
     - run: cp /var/www/itsallfoodthings-api-old/.env /var/www/itsallfoodthings-api
