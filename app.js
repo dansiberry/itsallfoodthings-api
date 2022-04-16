@@ -41,7 +41,7 @@ app.use(express.json());
 app.use(express.json());
 app.use(cookieParser());
 
-app.get('/', async (req, res) => {
+app.get('/api/test', async (req, res) => {
   res.send('TEST...');
 });
 
