@@ -32,4 +32,6 @@ jobs:
     - run: cd /var/www/itsallfoodthings-api
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
+      with:
+        install-dependencies: false
     - run: docker-compose up -d
