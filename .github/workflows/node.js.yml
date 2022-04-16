@@ -30,4 +30,4 @@ jobs:
     - run: cp /var/www/itsallfoodthings-api-old/.env /var/www/itsallfoodthings-api
     - run: rm -rf /var/www/itsallfoodthings-api-old
     - run: cd /var/www/itsallfoodthings-api
-    - run: docker-compose up
+    - run: docker-compose up -d
