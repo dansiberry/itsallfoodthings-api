@@ -18,7 +18,7 @@ services:
     volumes:
       - .:/home/node/code
     command: bash -c "yarn && nodemon app.js"
-    container_name: node_express
+    container_name: itsallfoodthings_node_express
     ports:
       - "3000:3000"
     links:
