@@ -21,8 +21,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
-    - run: docker kill itsallfoodthings_psql_db
-    - run: docker kill itsallfoodthings_node_express
+    - run: docker stop itsallfoodthings_psql_db || true && docker rm itsallfoodthings_psql_db || true
+    - run: docker stop itsallfoodthings_node_express || true && docker rm itsallfoodthings_node_express || true
     - run: mv /var/www/itsallfoodthings-api /var/www/itsallfoodthings-api/old
     - run: mkdir /var/www/itsallfoodthings-api
     - run: cp -r /var/www/actions-runner/_work/itsallfoodthings-api/itsallfoodthings-api/. itsallfoodthings-api
