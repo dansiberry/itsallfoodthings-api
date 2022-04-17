@@ -21,5 +21,12 @@ jobs:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
-    - run: touch 'test.txt'
-    - run: echo "$(whoami)" > test.txt
+    - run: docker stop itsallfoodthings_psql_db || true && docker rm itsallfoodthings_psql_db || true
+    - run: docker stop itsallfoodthings_node_express || true && docker rm itsallfoodthings_node_express || true
+    - run: rm -rf /var/www/itsallfoodthings-api-old
+    - run: mv /var/www/itsallfoodthings-api /var/www/itsallfoodthings-api-old
+    - run: mkdir /var/www/itsallfoodthings-api
+    - run: cp -r /var/www/actions-runner/_work/itsallfoodthings-api/itsallfoodthings-api/. /var/www/itsallfoodthings-api
+    - run: cp /var/www/itsallfoodthings-api-old/.env /var/www/itsallfoodthings-api
+    - run: rm -rf /var/www/itsallfoodthings-api-old
+    - run: docker-compose -f /var/www/itsallfoodthings-api/docker-compose.yml up -d
