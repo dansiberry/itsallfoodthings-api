@@ -42,7 +42,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get('/api/test', async (req, res) => {
-  res.send('TEST...');
+  res.send('TEST :) ');
 });
 
 app.post('/api/login', async (req, res) => {
