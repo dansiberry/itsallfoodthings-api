@@ -25,6 +25,6 @@ jobs:
     - run: docker stop itsallfoodthings_node_express || true && docker rm itsallfoodthings_node_express || true
     - run: rm -rf /var/www/itsallfoodthings-api
     - run: mkdir /var/www/itsallfoodthings-api
-    - run: cp -r /var/www/actions-runner/_work/itsallfoodthings-api/itsallfoodthings-api/. /var/www/itsallfoodthings-api
+    - run: cp -r /var/www/runners/actions-runner-itsallfoodthings-api/_work/itsallfoodthings-api/itsallfoodthings-api/. /var/www/itsallfoodthings-api
     - run: cp /var/www/envs/itsallfoodthings-api.env /var/www/itsallfoodthings-api/.env
     - run: docker-compose -f /var/www/itsallfoodthings-api/docker-compose.yml up -d
