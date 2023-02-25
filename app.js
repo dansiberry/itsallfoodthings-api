@@ -19,7 +19,7 @@ const jwt = require('jsonwebtoken');
 
 // Algolia
 const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_ADMIN_API);
-const index = client.initIndex('itsallfoodthings2');
+const index = client.initIndex(process.env.ALGOLIA_INDEX);
 
 // Modules
 const { recipe } = require('./modules/recipe.js');
@@ -42,7 +42,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get('/api/test', async (req, res) => {
-  res.send('TEST :) ');
+  res.send('TEST :) !');
 });
 
 app.post('/api/login', async (req, res) => {

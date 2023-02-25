@@ -4,8 +4,8 @@ services:
     image: postgres
     restart: always
     container_name: itsallfoodthings_psql_db
-    ports:
-      - '5432:5432'
+#    ports:
+#      - '5432:5432'  UNCOMMENT TO EXPOSE FOR DEV
     volumes:
       - ./../my_dbs_psql:/var/lib/postgresql/data/custom
     environment:
